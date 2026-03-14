@@ -1,0 +1,201 @@
+:root {
+  --titlebar-blue-start: #001a98;
+  --titlebar-blue-end: #0a52c2;
+  --title-text: #ffffff;
+  --window-face: #c0c0c0;
+  --window-edge-light: #ffffff;
+  --window-edge-dark: #808080;
+  --window-edge-darker: #404040;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  font-family: "MS Sans Serif", Tahoma, Verdana, sans-serif;
+}
+
+#overlay {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.popup {
+  position: absolute;
+  width: min(360px, 80vw);
+  background: var(--window-face);
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--window-edge-light) var(--window-edge-darker) var(--window-edge-darker)
+    var(--window-edge-light);
+  box-shadow: 1px 1px 0 0 var(--window-edge-dark), 3px 3px 10px rgba(0, 0, 0, 0.45);
+  user-select: none;
+}
+
+.popup-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 22px;
+  padding: 2px 3px;
+  background: linear-gradient(to right, var(--titlebar-blue-start), var(--titlebar-blue-end));
+  color: var(--title-text);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.2px;
+}
+
+.popup-close {
+  width: 16px;
+  height: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-color: var(--window-edge-light) var(--window-edge-darker) var(--window-edge-darker)
+    var(--window-edge-light);
+  background: var(--window-face);
+  color: #000;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.popup-content {
+  padding: 10px 8px 8px;
+  border-top: 1px solid var(--window-edge-dark);
+}
+
+.popup-message-row {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 8px;
+  align-items: start;
+}
+
+.popup-icon {
+  width: 26px;
+  height: 26px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  background: #ffff00;
+  color: #000;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.popup-message {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: #111;
+}
+
+.popup-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.popup-button {
+  min-width: 74px;
+  padding: 3px 9px;
+  font: inherit;
+  font-size: 12px;
+  border: 2px solid;
+  border-color: var(--window-edge-light) var(--window-edge-darker) var(--window-edge-darker)
+    var(--window-edge-light);
+  background: var(--window-face);
+  color: #000;
+}
+
+.popup-glitch {
+  animation: popup-jitter 90ms steps(2, jump-none) infinite;
+}
+
+.popup-glitch .popup-titlebar {
+  background: linear-gradient(to right, #560000, #9e0000);
+}
+
+.popup-glitch .popup-content {
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-glitch .popup-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.22) 0 2px,
+    transparent 2px 4px
+  );
+  mix-blend-mode: screen;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.popup-glitch .popup-content::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 0, 80, 0.12), rgba(0, 140, 255, 0.12));
+  mix-blend-mode: color-dodge;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.popup-icon-glitch {
+  background: #ff2a2a;
+  color: #fff;
+}
+
+.popup-message-glitch {
+  letter-spacing: 0.2px;
+  color: #120000;
+  text-shadow: 1px 0 #f44, -1px 0 #44f;
+}
+
+.popup-artifacts {
+  position: relative;
+  height: 28px;
+  margin: 8px 2px 2px;
+  background: #050505;
+  border: 1px solid #222;
+  overflow: hidden;
+}
+
+.popup-artifact-bar {
+  position: absolute;
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, #ffffff, #8ce6ff 45%, #ff8ca5);
+  opacity: 0.9;
+}
+
+@keyframes popup-jitter {
+  0% {
+    transform: translate(0, 0);
+  }
+  33% {
+    transform: translate(2px, -1px);
+  }
+  66% {
+    transform: translate(-2px, 1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
