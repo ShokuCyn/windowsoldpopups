@@ -46,12 +46,17 @@ const CREEPY_MESSAGES = [
 
 const BUTTON_LABELS = ["OK", "Ignore", "Retry", "Cancel", "Abort"];
 
-const MIN_INTERVAL_MS = 1200;
-const MAX_INTERVAL_MS = 5500;
+const MIN_INTERVAL_MS = 12000;
+const MAX_INTERVAL_MS = 55000;
 const POPUP_VISIBLE_MS = 500;
 const GLITCH_POPUP_CHANCE = 0.7;
+const FRENZY_MODE_CHANCE = 0.01;
+const FRENZY_DURATION_MS = 1000;
+const FRENZY_MIN_POPUPS = 160;
+const FRENZY_MAX_POPUPS = 280;
 
 const overlay = document.getElementById("overlay");
+let frenzyActive = false;
 
 function randomBetween(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -170,12 +175,47 @@ function createPopup() {
   setTimeout(() => popup.remove(), POPUP_VISIBLE_MS);
 }
 
+function triggerFrenzyMode() {
+  if (frenzyActive) {
+    return;
+  }
+
+  frenzyActive = true;
+  const totalPopups = randomBetween(FRENZY_MIN_POPUPS, FRENZY_MAX_POPUPS);
+  const intervalMs = Math.max(5, Math.floor(FRENZY_DURATION_MS / totalPopups));
+  let spawned = 0;
+
+  const frenzyTimer = setInterval(() => {
+    createPopup();
+    spawned += 1;
+
+    if (spawned >= totalPopups) {
+      clearInterval(frenzyTimer);
+      frenzyActive = false;
+    }
+  }, intervalMs);
+
+  setTimeout(() => {
+    clearInterval(frenzyTimer);
+    frenzyActive = false;
+  }, FRENZY_DURATION_MS + 100);
+}
+
 function scheduleNextPopup() {
   const delay = randomBetween(MIN_INTERVAL_MS, MAX_INTERVAL_MS);
   setTimeout(() => {
-    createPopup();
+    if (Math.random() < FRENZY_MODE_CHANCE) {
+      triggerFrenzyMode();
+    } else {
+      createPopup();
+    }
+
     scheduleNextPopup();
   }, delay);
 }
+
+window.overlayDebug = {
+  triggerFrenzyMode
+};
 
 scheduleNextPopup();

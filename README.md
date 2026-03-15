@@ -14,6 +14,6 @@ A lightweight browser source overlay for Streamlabs that occasionally flashes fa
 - Generates text-based creepy Win95-style error windows (no image assets required).
 - Includes expanded random message pools for titles and creepy warnings.
 - Frequently spawns visual glitch variants (more common than regular error dialogs) with jitter, scanlines, and artifact bars.
-- Popups appear in random positions.
+- Popups now appear roughly **10x less often** during normal operation.
 - Each popup auto-closes after ~0.5 seconds.
-- Popups show up at random intervals for a subtle jump-scare effect.
+- Every scheduled event has a **1% chance** to trigger **Frenzy Mode**, filling the screen with hundreds of popups over about 1 second.
